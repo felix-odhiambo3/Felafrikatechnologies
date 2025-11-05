@@ -1,0 +1,46 @@
+{
+  "placeholderImages": [
+    {
+      "id": "hero-background",
+      "description": "Abstract technology background",
+      "imageUrl": "https://images.unsplash.com/photo-1558591710-4b4a1ae0f04d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw2fHx0ZWNobm9sb2d5JTIwYWJzdHJhY3R8ZW58MHx8fHwxNzYyMjA3NzkxfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "technology abstract"
+    },
+    {
+      "id": "project-chipukizi",
+      "description": "Screenshot of the Chipukizi VOD Cooperative System",
+      "imageUrl": "/cvod.png",
+      "imageHint": "system dashboard"
+    },
+    {
+      "id": "project-chini-ya-dari",
+      "description": "Screenshot of the Chini ya Dari Digital Portfolio",
+      "imageUrl": "/cyd.png",
+      "imageHint": "photography website"
+    },
+    {
+      "id": "testimonial-kofi",
+      "description": "Avatar of Kofi Annan Jr.",
+      "imageUrl": "https://images.unsplash.com/photo-1740252117027-4275d3f84385?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw2fHxjbGllbnQlMjBhdmF0YXJ8ZW58MHx8fHwxNzYyMjM5MzY1fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "client avatar"
+    },
+    {
+      "id": "testimonial-amina",
+      "description": "Avatar of Amina Yusuf",
+      "imageUrl": "https://images.unsplash.com/photo-1644410578096-a23505a7a49c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHxjbGllbnQlMjBwb3J0cmFpdHxlbnwwfHx8fDE3NjIxNTAxNjN8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "client portrait"
+    },
+    {
+      "id": "testimonial-samuel",
+      "description": "Avatar of Samuel Chen",
+      "imageUrl": "https://images.unsplash.com/photo-1750535135685-7d3322ba2e36?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw2fHxjdXN0b21lciUyMGF2YXRhcnxlbnwwfHx8fDE3NjIxODM3MjZ8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "customer avatar"
+    },
+    {
+      "id": "about-us-hero",
+      "description": "Diverse team collaborating in a modern office",
+      "imageUrl": "https://images.unsplash.com/photo-1517048676732-d65bc937f952?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw0fHx0ZWFtJTIwY29sbGFib3JhdGlvbnxlbnwwfHx8fDE3NjIxNTIyODR8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "team collaboration"
+    }
+  ]
+}
