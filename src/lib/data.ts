@@ -71,6 +71,26 @@ export const projects: Project[] = [
       'Ensured fast content delivery and scalability using a Flask and PostgreSQL backend.',
     ],
   },
+  {
+    id: 3,
+    slug: 'training-ai-model',
+    title: 'Training of AI Model',
+    description:
+      'An end-to-end training workflow for a supervised learning model demonstrating linear regression techniques.',
+    longDescription:
+      'Implemented a complete training pipeline focused on linear regression. The project demonstrates data preprocessing, model training, evaluation, and deployment considerations using practical datasets. It serves as a tutorial-style project showcasing how to build and assess simple predictive models.',
+    imageId: 'project-linear',
+    tags: ['Machine Learning', 'AI', 'Regression', 'Tutorial'],
+    challenge:
+      'Design a straightforward and reproducible training workflow that demonstrates linear regression concepts and produces an explainable model with measurable performance.',
+    solution:
+      'Built a step-by-step pipeline for data cleaning, feature engineering, training and evaluating a linear regression model. Provided clear documentation and example notebooks so users can reproduce experiments and explore hyperparameter impacts.',
+    results: [
+      'Delivered an educational, reproducible linear regression training pipeline.',
+      'Included example Colab notebook for hands-on experimentation.',
+      'Provided clear metrics and visualization to explain model performance.',
+    ],
+  },
 ];
 
 export const testimonials: Testimonial[] = [

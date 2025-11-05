@@ -157,6 +157,29 @@ export default async function ProjectDetailsPage({ params }: Props) {
                 return null;
               })()
             }
+            {/* Link to Colab for training AI model project variant */}
+            {
+              (() => {
+                const normalize = (s: string) => s.toLowerCase().replace(/[^a-z0-9]/g, '');
+                const ns = normalize(project.slug ?? '');
+                const trainingTargets = ['trainingaimodel', 'trainingaimodel'];
+                if (trainingTargets.includes(ns)) {
+                  return (
+                    <div className="mt-6 flex justify-center">
+                      <a
+                        href="https://colab.research.google.com/github/google/eng-edu/blob/main/ml/cc/exercises/linear_regression_taxi.ipynb?utm_source=mlcc&utm_campaign=colab-external&utm_medium=referral&utm_content=linear_regression"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-block px-6 py-3 bg-accent text-white font-semibold rounded-lg shadow hover:bg-accent/90 transition"
+                      >
+                        View Colab Notebook
+                      </a>
+                    </div>
+                  );
+                }
+                return null;
+              })()
+            }
           </div>
         </div>
       </div>

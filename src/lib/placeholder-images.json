@@ -19,6 +19,12 @@
       "imageHint": "photography website"
     },
     {
+      "id": "project-linear",
+      "description": "Illustration for linear regression training",
+      "imageUrl": "/linear.png",
+      "imageHint": "linear regression"
+    },
+    {
       "id": "testimonial-kofi",
       "description": "Avatar of Kofi Annan Jr.",
       "imageUrl": "https://images.unsplash.com/photo-1740252117027-4275d3f84385?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw2fHxjbGllbnQlMjBhdmF0YXJ8ZW58MHx8fHwxNzYyMjM5MzY1fDA&ixlib=rb-4.1.0&q=80&w=1080",
