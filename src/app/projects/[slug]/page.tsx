@@ -97,6 +97,66 @@ export default async function ProjectDetailsPage({ params }: Props) {
                 </li>
               ))}
             </ul>
+            {/* Show external link button for chini ya dari project and fuzzy/close variants */}
+            {
+              (() => {
+                const normalize = (s: string) => s.toLowerCase().replace(/[^a-z0-9]/g, '');
+                const normalizedSlug = normalize(project.slug ?? '');
+                const targets = ['chiniyadari', 'chiniyadariportfolio', 'cyd'];
+                if (targets.includes(normalizedSlug)) {
+                  return (
+                    <div className="mt-8 flex justify-center">
+                      <a
+                        href="https://felix-odhiambo3.github.io/cyd/"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-block px-6 py-3 bg-accent text-white font-semibold rounded-lg shadow hover:bg-accent/90 transition"
+                      >
+                        View This
+                      </a>
+                    </div>
+                  );
+                }
+                return null;
+              })()
+            }
+            {/* Additional links for Chipukizi project variants */}
+            {
+              (() => {
+                const normalize = (s: string) => s.toLowerCase().replace(/[^a-z0-9]/g, '');
+                const ns = normalize(project.slug ?? '');
+                // normalized target slugs (lowercase, alphanumeric only)
+                const chipTargets = [
+                  'chipukizi',
+                  'chipukizivodcooperative',
+                  'chipukizivod',
+                  'chipukizivodcs',
+                ];
+                if (chipTargets.includes(ns)) {
+                  return (
+                    <div className="mt-6 flex flex-col items-center">
+                      <a
+                        href="https://felix-odhiambo3.github.io/chipukizi-vod.cs/"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-block px-6 py-3 bg-accent text-white font-semibold rounded-lg shadow hover:bg-accent/90 transition"
+                      >
+                        View This
+                      </a>
+                      <a
+                        href="https://chipukizivod.co.ke/"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="mt-2 text-sm text-accent underline"
+                      >
+                        Visit our web: https://chipukizivod.co.ke
+                      </a>
+                    </div>
+                  );
+                }
+                return null;
+              })()
+            }
           </div>
         </div>
       </div>
