@@ -1,6 +1,7 @@
 import { Metadata } from 'next';
 import { ContactForm } from '@/components/contact-form';
 import { Mail, Phone, MapPin } from 'lucide-react';
+import { RecaptchaScript } from '@/hooks/use-recaptcha';
 
 export const metadata: Metadata = {
   title: 'Contact Me',
@@ -9,9 +10,11 @@ export const metadata: Metadata = {
 
 export default function ContactPage() {
   return (
-    <div className="container mx-auto px-4 py-16 lg:py-24">
-      <div className="text-center mb-12">
-        <h1 className="text-4xl font-bold tracking-tight sm:text-5xl font-headline">Contact Me</h1>
+    <div>
+      <RecaptchaScript />
+      <div className="container mx-auto px-4 py-16 lg:py-24">
+        <div className="text-center mb-12">
+          <h1 className="text-4xl font-bold tracking-tight sm:text-5xl font-headline">Contact Me</h1>
         <p className="mt-4 max-w-2xl mx-auto text-lg text-muted-foreground">
           Have a project in mind or just want to say hello? I'd love to hear from you.
         </p>
@@ -73,6 +76,7 @@ export default function ContactPage() {
           </div>
         </div>
       </div>
+    </div>
     </div>
   );
 }

@@ -9,10 +9,22 @@ import {
 import { Resend } from 'resend';
 
 const contactSchema = z.object({
-  name: z.string().min(2, 'Name must be at least 2 characters.'),
-  email: z.string().email('Invalid email address.'),
-  subject: z.string().min(5, 'Subject must be at least 5 characters.'),
-  message: z.string().min(10, 'Message must be at least 10 characters.'),
+  name: z.string()
+    .min(2, 'Name must be at least 2 characters.')
+    .max(100, 'Name must not exceed 100 characters.')
+    .regex(/^[a-zA-Z\s'-]+$/, 'Name can only contain letters, spaces, hyphens and apostrophes.'),
+  email: z.string()
+    .email('Invalid email address.')
+    .max(255, 'Email must not exceed 255 characters.')
+    .regex(/^[^@]+@[^@]+\.[a-zA-Z]{2,}$/, 'Please enter a valid email address.'),
+  subject: z.string()
+    .min(5, 'Subject must be at least 5 characters.')
+    .max(200, 'Subject must not exceed 200 characters.')
+    .regex(/^[^<>{}]*$/, 'Subject contains invalid characters.'),
+  message: z.string()
+    .min(10, 'Message must be at least 10 characters.')
+    .max(5000, 'Message must not exceed 5000 characters.')
+    .regex(/^[^<>{}]*$/, 'Message contains invalid characters.'),
 });
 
 export type ContactFormState = {
@@ -25,10 +37,48 @@ export type ContactFormState = {
   };
 };
 
+async function verifyRecaptcha(token: string): Promise<boolean> {
+  if (!process.env.RECAPTCHA_SECRET_KEY) {
+    console.error('RECAPTCHA_SECRET_KEY not configured');
+    return false;
+  }
+
+  try {
+    const response = await fetch('https://www.google.com/recaptcha/api/siteverify', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: `secret=${process.env.RECAPTCHA_SECRET_KEY}&response=${token}`,
+    });
+
+    const data = await response.json();
+    return data.success && data.score >= 0.5; // Require minimum score of 0.5
+  } catch (error) {
+    console.error('reCAPTCHA verification error:', error);
+    return false;
+  }
+}
+
 export async function submitContactForm(
   prevState: ContactFormState,
   formData: FormData,
 ): Promise<ContactFormState> {
+  // Verify reCAPTCHA token first
+  const recaptchaToken = formData.get('recaptchaToken') as string;
+  if (!recaptchaToken) {
+    return {
+      message: 'Error! Please verify you are human.',
+      errors: { email: ['CAPTCHA verification required'] },
+    };
+  }
+
+  const isHuman = await verifyRecaptcha(recaptchaToken);
+  if (!isHuman) {
+    return {
+      message: 'Error! CAPTCHA verification failed.',
+      errors: { email: ['CAPTCHA verification failed - please try again'] },
+    };
+  }
+
   const validatedFields = contactSchema.safeParse({
     name: formData.get('name'),
     email: formData.get('email'),
@@ -47,10 +97,19 @@ export async function submitContactForm(
 
   try {
     const resend = new Resend(process.env.RESEND_API_KEY);
+    
+    if (!process.env.RESEND_API_KEY) {
+      console.error('RESEND_API_KEY is not configured');
+      return { message: 'Error! Email service is not configured properly.' };
+    }
+
+    // Use configured email or fall back to default onboarding address
+    const fromEmail = process.env.RESEND_FROM_EMAIL || 'onboarding@resend.dev';
+    const toEmail = process.env.RESEND_TO_EMAIL || 'felafrikasoftware.engineer@yahoo.com';
 
     const { data, error } = await resend.emails.send({
-      from: 'onboarding@resend.dev',
-      to: 'felafrikasoftware.engineer@yahoo.com',
+      from: fromEmail,
+      to: toEmail,
       subject: `New Contact Form Submission: ${subject}`,
       html: `
         <p>You have a new message from your portfolio contact form:</p>
@@ -64,13 +123,53 @@ export async function submitContactForm(
 
     if (error) {
       console.error('Resend error:', error);
-      return { message: 'Error! Could not send message. Please try again later.' };
+      
+      // Handle common Resend errors with user-friendly messages
+      if (error.statusCode === 429) {
+        return { message: 'Too many messages sent. Please wait a few minutes before trying again.' };
+      }
+      
+      if (error.statusCode === 422) {
+        return { message: 'Invalid email configuration. Please check your email address.' };
+      }
+
+      if (error.message?.includes('domain not verified')) {
+        return { message: 'Sender domain is not verified. Please contact the administrator.' };
+      }
+
+      return { 
+        message: 'Could not send message. Please try again later.',
+        errors: {
+          email: ['Email service temporarily unavailable']
+        }
+      };
     }
 
-    return { message: 'Success! Your message has been sent. We will get back to you shortly.' };
+    return { 
+      message: 'Success! Your message has been sent. We will get back to you shortly.',
+      // Clear any previous errors
+      errors: undefined
+    };
   } catch (error) {
     console.error('Email sending error:', error);
-    return { message: 'Error! Could not send message. Please try again later.' };
+    const errorMessage = error instanceof Error ? error.message : 'An unknown error occurred';
+    
+    // Handle different types of errors
+    if (errorMessage.includes('network') || errorMessage.includes('timeout')) {
+      return { 
+        message: 'Network error. Please check your connection and try again.',
+        errors: {
+          email: ['Connection failed - please try again']
+        }
+      };
+    }
+    
+    return { 
+      message: 'Could not send message. Please try again later.',
+      errors: {
+        email: ['Service temporarily unavailable']
+      }
+    };
   }
 }
 
